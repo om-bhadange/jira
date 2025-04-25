@@ -1,0 +1,138 @@
+Here’s a complete, step-by-step guide on how to handle each task you mentioned using Ubuntu, covering Jira + GitHub workflows including JQL and Git operations. Let’s break it down:
+
+
+---
+
+1. Create a Jira Story from a Feature Request and Assign It
+
+> Assuming you're using Jira Cloud.
+
+
+
+a. Manual via UI (easiest):
+
+1. Go to your Jira project.
+
+
+2. Click “Create”.
+
+
+3. Fill in:
+
+Issue Type: Story
+
+Summary: e.g., “Add dark mode to user profile”
+
+Description: Feature request details
+
+Assignee: Choose the team member
+
+
+
+4. Click Create.
+
+
+
+b. Using Jira CLI (Optional):
+
+If you want to automate:
+
+jira create --project=ABC --type=Story --summary="Add dark mode" --description="Feature request to add dark mode in profile" --assignee=username
+
+
+---
+
+2. JQL: Find Issues Created Since Start of Week
+
+created >= startOfWeek()
+
+
+---
+
+3. JQL: Show Issues Resolved in Previous Quarter and Previous Year
+
+resolved >= startOfQuarter(-1) AND resolved < startOfQuarter()
+
+resolved >= startOfYear(-1) AND resolved < startOfYear()
+
+
+---
+
+4. Merge Changes into Main Branch After Pull Request Approval
+
+a. On GitHub (manual):
+
+1. Go to the Pull Request.
+
+
+2. After it’s Approved, click “Merge Pull Request” → “Confirm Merge”.
+
+
+
+b. On Terminal (Ubuntu):
+
+# Fetch latest changes
+git checkout main
+git pull origin main
+
+# Merge the PR branch (e.g., feature-xyz)
+git merge feature-xyz
+
+# Push to remote
+git push origin main
+
+
+---
+
+5. More JQL Dynamic Date Functions
+
+
+---
+
+6. Work With a Forked Repository
+
+a. Fork a Repo (on GitHub UI):
+
+1. Go to the original repo → Click Fork → Select your account.
+
+
+
+b. Clone the Forked Repo (on Ubuntu):
+
+git clone https://github.com/your-username/repo-name.git
+cd repo-name
+
+c. Set Up Remotes:
+
+git remote add upstream https://github.com/original-owner/repo-name.git
+git fetch upstream
+
+d. Create a New Branch and Push Changes:
+
+git checkout -b feature-xyz
+# Make code changes
+git add .
+git commit -m "Added dark mode"
+git push origin feature-xyz
+
+e. Send Pull Request (via GitHub UI):
+
+1. Go to your forked repo on GitHub.
+
+
+2. Click Compare & Pull Request.
+
+
+3. Choose base: original repo’s main
+compare: your feature branch.
+
+
+4. Submit the PR.
+
+
+
+
+---
+
+Let me know if you want a script that automates some of these Git steps on Ubuntu!
+
