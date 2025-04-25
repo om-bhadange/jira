@@ -1,0 +1,27 @@
+1] created >= -7d
+
+2] created >= -30d
+
+3] created <= -90d
+
+4] resolved >= "2024-01-01" AND resolved <= "2024-03-31"
+
+5] resolved >= "2025-01-01" AND resolved <= "2025-03-31"
+
+6] resolved >= "2025-01-01"
+
+7] created >= -30d AND resolved >= -23d
+
+
+1] due >= "2025-03-01" AND due <= "2025-03-15"
+
+2] status in ("To Do", "In Progress")
+
+3] status = "In Progress"
+
+
+1] status CHANGED FROM "In Progress" TO "Done" AFTER "2024-03-01"
+
+2] text ~ "bug fix" 
+
+3] status CHANGED FROM "In Progress" TO "Done" AFTER "2024-03-01" AND assignee =
