@@ -56,5 +56,446 @@ WHERE SaleAmount = (SELECT MAX(SaleAmount) FROM Sales);
 
 SELECT AVG(SaleAmount) AS AverageSaleAmount
 
+2.2) Use DDL and DML Commands a) Create a Products table with columns for ProductID, ProductName, Price, and StockQuantity using DDL commands. 
+b) Insert five product records and display all products using a SELECT query.
+c) Update the price of a product with ProductID = 3 and check the changes using a SELECT statement.
+d) Delete a product from the table and verify whether the changes are reflected. 
+e) Alter the table to add a new column Discount and set a default value of 5%.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Price DECIMAL(10, 2),
+    StockQuantity INT
+);
+
+INSERT INTO Products (ProductID, ProductName, Price, StockQuantity) VALUES
+(1, 'Laptop', 50000.00, 10),
+(2, 'Smartphone', 25000.00, 20),
+(3, 'Tablet', 15000.00, 15),
+(4, 'Headphones', 3000.00, 50),
+(5, 'Smartwatch', 8000.00, 25);
+
+SELECT * FROM Products;
+
+UPDATE Products
+SET Price = 17000.00
+WHERE ProductID = 3;
+
+SELECT * FROM Products
+WHERE ProductID = 3;
+
+DELETE FROM Products
+WHERE ProductID = 5;
+
+SELECT * FROM Products;
+
+
+ALTER TABLE Products
+ADD Discount DECIMAL(5,2) DEFAULT 5.00;
+
+SELECT * FROM Products;
+
+
 FROM Sal
+
+
+3) Create a Customer Table with Integrity Constraints:-
+a) Create a Customers table with constraints: CustomerID (PRIMARY KEY), Email (UNIQUE), Age (CHECK Age > 18).
+b) Insert a valid customer record and verify that the default country is assigned if not explicitly provided.
+c) Attempt to insert a customer with an age of 16 and observe the CHECK constraint violation. d) Try inserting two customers with the same email ID and observe the UNIQUE constraint violation. 
+e) Retrieve all customers who are older than 25 and belong to a country other than 'India'.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Email VARCHAR(100) UNIQUE,
+    Age INT CHECK (Age > 18),
+    Country VARCHAR(50) DEFAULT 'India'
+);
+
+
+INSERT INTO Customers (CustomerID, Name, Email, Age)
+VALUES (1, 'Rahul Sharma', 'rahul.sharma@email.com', 28);
+
+-- Check the record
+SELECT * FROM Customers;
+
+
+INSERT INTO Customers (CustomerID, Name, Email, Age)
+VALUES (2, 'Ankit Patel', 'ankit.patel@email.com', 16);
+
+-- First valid insert
+INSERT INTO Customers (CustomerID, Name, Email, Age)
+VALUES (2, 'Pooja Verma', 'pooja.verma@email.com', 30);
+
+-- Second insert with same email (should fail)
+INSERT INTO Customers (CustomerID, Name, Email, Age)
+VALUES (3, 'Ravi Yadav', 'pooja.verma@email.com', 35);
+
+SELECT * FROM Customers
+WHERE Age > 25 AND Country <> 'India';
+
+
+
+CREATE TABLE Department (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+
+
+CREATE TABLE EmployeeDetails (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    Salary DECIMAL(10, 2),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+);
+
+INSERT INTO Department (DepartmentID, DepartmentName)
+VALUES (1, 'Human Resources');
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1001, 'Amit Kumar', 50000.00, 1);
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1002, 'Rohit Singh', 55000.00, 99);
+
+-- EmployeeID 1001 already exists
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1001, 'Sneha Sharma', 60000.00, 1);
+
+ALTER TABLE EmployeeDetails
+ADD CONSTRAINT unique_salary UNIQUE (Salary);
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1003, 'Vikas Jain', 60000.00, 1);
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1004, 'Anita Mehra', 60000.00, 1);
+
+DELETE FROM EmployeeDetails
+WHERE EmployeeID = 1001;
+
+
+4) Create a Table with Constraints 
+a) Create an EmployeeDetails table with EmployeeID as the PRIMARY KEY and DepartmentID as a FOREIGN KEY referencing a Department table.
+b) Insert a valid employee record with an existing DepartmentID, then attempt to insert an employee with a non-existent DepartmentID and observe the constraint violation. 
+c) Insert an employee with a duplicate EmployeeID and check how the primary key constraint prevents duplicate entries. 
+d) Modify the Salary column to have a UNIQUE constraint and attempt to insert two employees with the same salary to test the constraint. 
+e) Write a query to delete an employee from EmployeeDetails and ensure that the deletion does not violate any referential integrity constraints.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Department (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+
+
+CREATE TABLE EmployeeDetails (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    Salary DECIMAL(10, 2),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+);
+
+INSERT INTO Department (DepartmentID, DepartmentName)
+VALUES (1, 'Human Resources');
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1001, 'Amit Kumar', 50000.00, 1);
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1002, 'Rohit Singh', 55000.00, 99);
+
+-- EmployeeID 1001 already exists
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1001, 'Sneha Sharma', 60000.00, 1);
+
+ALTER TABLE EmployeeDetails
+ADD CONSTRAINT unique_salary UNIQUE (Salary);
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1003, 'Vikas Jain', 60000.00, 1);
+
+INSERT INTO EmployeeDetails (EmployeeID, EmployeeName, Salary, DepartmentID)
+VALUES (1004, 'Anita Mehra', 60000.00, 1);
+
+DELETE FROM EmployeeDetails
+WHERE EmployeeID = 1001;
+
+5) Create an Employee Table with Various Columns 
+a) Create a table Employee with attributes: EmployeeID (INT, PRIMARY KEY), Name (VARCHAR), Salary (DECIMAL), JoiningDate (DATE), and ActiveStatus (BOOLEAN). 
+b) Insert five sample employee records and ensure each employee has a unique EmployeeID.
+c) Write a query to find all employees who joined before January 1, 2023.
+d) Update the salary of an employee named ‘Amit Sharma’ by 10% and display the updated record.
+e) Retrieve all employees who are currently active (ActiveStatus = TRUE).
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Salary DECIMAL(10, 2),
+    JoiningDate DATE,
+    ActiveStatus BOOLEAN
+);
+
+INSERT INTO Employee (EmployeeID, Name, Salary, JoiningDate, ActiveStatus) VALUES
+(1, 'Amit Sharma', 60000.00, '2022-06-15', TRUE),
+(2, 'Sneha Verma', 55000.00, '2023-03-10', TRUE),
+(3, 'Rohan Gupta', 70000.00, '2021-11-20', FALSE),
+(4, 'Priya Singh', 65000.00, '2022-12-05', TRUE),
+(5, 'Kunal Joshi', 72000.00, '2024-01-18', TRUE);
+
+
+SELECT * FROM Employee
+WHERE JoiningDate < '2023-01-01';
+
+UPDATE Employee
+SET Salary = Salary * 1.10
+WHERE Name = 'Amit Sharma';
+
+SELECT * FROM Employee
+WHERE Name = 'Amit Sharma';
+
+SELECT * FROM Employee
+WHERE ActiveStatus = TRUE;
+
+6) Aggregate Functions (on a single table: Create a Sales table with columns: SaleID, ProductID, ProductName, Quantity, Discount, SaleAmount, and SaleDate.) 
+a) From the Sales table, calculate the total sales amount (SUM) generated in the month of February 2025.
+b) Find the average (AVG) billing amount from the Sales table to assess customer spending behavior. 
+c) Identify the minimum (MIN) quantity of products sold in any transaction using the Sales table. 
+d) Determine the highest (MAX) discount applied on any sale using the Sales table. 
+e) Use the COUNT function to find how many transactions were recorded in the Sales table for the product “Laptop”.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY,
+    ProductID INT,
+    ProductName VARCHAR(100),
+    Quantity INT,
+    Discount DECIMAL(5,2),
+    SaleAmount DECIMAL(10,2),
+    SaleDate DATE
+);
+
+
+INSERT INTO Sales (SaleID, ProductID, ProductName, Quantity, Discount, SaleAmount, SaleDate) VALUES
+(1, 101, 'Laptop', 2, 5.00, 95000.00, '2025-02-05'),
+(2, 102, 'Tablet', 1, 10.00, 15000.00, '2025-02-15'),
+(3, 103, 'Smartphone', 3, 7.50, 75000.00, '2025-01-25'),
+(4, 104, 'Laptop', 1, 8.00, 45000.00, '2025-02-20'),
+(5, 105, 'Headphones', 5, 2.00, 10000.00, '2025-03-01');
+
+SELECT SUM(SaleAmount) AS TotalSalesFebruary
+FROM Sales
+WHERE SaleDate BETWEEN '2025-02-01' AND '2025-02-28';
+
+
+SELECT AVG(SaleAmount) AS AverageBillingAmount
+FROM Sales;
+
+SELECT AVG(SaleAmount) AS AverageBillingAmount
+FROM Sales;
+
+SELECT MIN(Quantity) AS MinimumQuantitySold
+FROM Sales;
+
+SELECT MAX(Discount) AS MaximumDiscountApplied
+FROM Sales;
+
+SELECT COUNT(*) AS LaptopTransactions
+FROM Sales
+WHERE ProductName = 'Laptop';
+
+7) Constraints (on a single table: Employees) a) Create the Employees table with EmployeeID as PRIMARY KEY, Email as UNIQUE, and Salary with a CHECK (Salary > 10000) constraint.
+b) Add a NOT NULL constraint on the Name column in the Employees table and try inserting a record without the name. 
+c) Add a DEFAULT value ‘Active’ to the Status column in Employees, and insert a record without specifying the status to verify the default. 
+d) Insert a record into Employees where Salary is less than 10000 to test the CHECK constraint. 
+e) Try inserting two employees with the same Email ID to verify the enforcement of the UNIQUE constraint.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100) UNIQUE,
+    Salary DECIMAL(10,2) CHECK (Salary > 10000),
+    Status VARCHAR(20) DEFAULT 'Active'
+);
+
+
+ALTER TABLE Employees
+MODIFY Name VARCHAR(100) NOT NULL;
+
+INSERT INTO Employees (EmployeeID, Email, Salary)
+VALUES (1, 'test.email@example.com', 15000.00);
+
+INSERT INTO Employees (EmployeeID, Name, Email, Salary)
+VALUES (2, 'Rahul Verma', 'rahul.verma@example.com', 20000.00);
+
+SELECT * FROM Employees;
+
+INSERT INTO Employees (EmployeeID, Name, Email, Salary)
+VALUES (3, 'Sneha Kapoor', 'sneha.kapoor@example.com', 8000.00);
+
+
+INSERT INTO Employees (EmployeeID, Name, Email, Salary)
+VALUES (4, 'Kunal Mehta', 'kunal.mehta@example.com', 25000.00);
+
+
+INSERT INTO Employees (EmployeeID, Name, Email, Salary)
+VALUES (5, 'Anjali Singh', 'kunal.mehta@example.com', 30000.00);
+
+
+8) DDL and DML Commands a) Use DDL commands to create a Library database and define a Books table with fields: BookID, Title, Author, Genre, and Price. 
+b) Insert at least five sample records into the Books table using INSERT (DML) and verify them using a SELECT query. 
+c) A new column PublicationYear needs to be added. Use ALTER TABLE to modify the existing table structure.
+d) Update the price of all books published before 2020 by increasing 10% using the UPDATE statement. 
+e) Use DELETE to remove all books where the genre is ‘Outdated Technology’ and validate the change with a SELECT query.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE DATABASE Library;
+
+USE Library;
+
+CREATE TABLE Books (
+    BookID INT PRIMARY KEY,
+    Title VARCHAR(255),
+    Author VARCHAR(255),
+    Genre VARCHAR(100),
+    Price DECIMAL(10, 2)
+);
+
+
+INSERT INTO Books (BookID, Title, Author, Genre, Price) VALUES
+(1, 'The AI Revolution', 'John Smith', 'Technology', 500.00),
+(2, 'Modern Web Development', 'Alice Johnson', 'Programming', 750.00),
+(3, 'Ancient Computing', 'Bob Martin', 'Outdated Technology', 300.00),
+(4, 'Data Science 101', 'Clara Brown', 'Education', 900.00),
+(5, 'Future of Robotics', 'David Lee', 'Technology', 650.00);
+
+SELECT * FROM Books;
+
+ALTER TABLE Books
+ADD PublicationYear INT;
+
+
+UPDATE Books SET PublicationYear = 2018 WHERE BookID = 1;
+UPDATE Books SET PublicationYear = 2021 WHERE BookID = 2;
+UPDATE Books SET PublicationYear = 2015 WHERE BookID = 3;
+UPDATE Books SET PublicationYear = 2019 WHERE BookID = 4;
+UPDATE Books SET PublicationYear = 2022 WHERE BookID = 5;
+
+
+UPDATE Books
+SET Price = Price * 1.10
+WHERE PublicationYear < 2020;
+
+SELECT * FROM Books;
+
+DELETE FROM Books
+WHERE Genre = 'Outdated Technology';
+
+SELECT * FROM Books;
+
+
+9) DDL and DML Commands (on a single table: Books) 
+a) Create a table Books using DDL with fields: BookID, Title, Author, Price, and StockAvailable. 
+b) Insert 5 book records into the Books table using the INSERT command. 
+c) Modify the structure of Books table by adding a new column Genre using the ALTER TABLE command.
+d) Use the UPDATE command to increase the price of all books by RS 50 in the Books table. 
+e) Delete all records from the Books table where StockAvailable is 0 using the DELETE command.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Books (
+    BookID INT PRIMARY KEY,
+    Title VARCHAR(255),
+    Author VARCHAR(255),
+    Price DECIMAL(10,2),
+    StockAvailable INT
+);
+
+
+INSERT INTO Books (BookID, Title, Author, Price, StockAvailable) VALUES
+(1, 'Introduction to AI', 'John McCarthy', 450.00, 10),
+(2, 'Learning Python', 'Mark Lutz', 550.00, 5),
+(3, 'Database Systems', 'C.J. Date', 600.00, 0),
+(4, 'Web Development Basics', 'Robin Nixon', 400.00, 7),
+(5, 'Data Structures', 'Seymour Lipschutz', 500.00, 0);
+
+SELECT * FROM Books;
+
+ALTER TABLE Books
+ADD Genre VARCHAR(100);
+
+UPDATE Books
+SET Price = Price + 50;
+
+SELECT * FROM Books;
+
+
+DELETE FROM Books
+WHERE StockAvailable = 0;
+
+
+SELECT * FROM Books;
+
+
+10) Analyze Sales Performance Using Aggregate Functions Create a Sales table with columns: SaleID, ProductID, ProductName, Quantity, Discount, SaleAmount, and SalesPerson.) 
+a) Calculate the total quantity of products sold across all transactions in the Sales table. 
+b) Find the average sale amount for transactions made in March 2025. 
+c) Identify the product with the minimum sale quantity from the Sales table.
+d) Determine the maximum discount offered in February 2025. 
+e) Count how many sales were made by each salesperson using GROUP BY SalesPerson.
+Which recent tool or technology have you studied for database management, and can you briefly explain its key features and why it is used in the industry?
+
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY,
+    ProductID INT,
+    ProductName VARCHAR(255),
+    Quantity INT,
+    Discount DECIMAL(5,2),
+    SaleAmount DECIMAL(10,2),
+    SaleDate DATE,
+    SalesPerson VARCHAR(100)
+);
+
+
+INSERT INTO Sales (SaleID, ProductID, ProductName, Quantity, Discount, SaleAmount, SaleDate, SalesPerson) VALUES
+(1, 101, 'Laptop', 5, 10.00, 250000.00, '2025-03-05', 'Amit'),
+(2, 102, 'Smartphone', 10, 5.00, 50000.00, '2025-03-10', 'Priya'),
+(3, 103, 'Tablet', 2, 15.00, 30000.00, '2025-02-15', 'Amit'),
+(4, 104, 'Printer', 1, 20.00, 15000.00, '2025-02-20', 'Suresh'),
+(5, 105, 'Headphones', 8, 8.00, 16000.00, '2025-03-15', 'Priya');
+
+
+SELECT SUM(Quantity) AS TotalQuantitySold
+FROM Sales;
+
+SELECT AVG(SaleAmount) AS AverageSaleAmountMarch
+FROM Sales
+WHERE SaleDate BETWEEN '2025-03-01' AND '2025-03-31';
+
+SELECT ProductName, Quantity
+FROM Sales
+WHERE Quantity = (SELECT MIN(Quantity) FROM Sales);
+
+SELECT MAX(Discount) AS MaxDiscountFeb
+FROM Sales
+WHERE SaleDate BETWEEN '2025-02-01' AND '2025-02-28';
+
+SELECT SalesPerson, COUNT(*) AS NumberOfSales
+FROM Sales
+GROUP BY SalesPerson;
+
+
+
+
+
+
+
+
+
 
